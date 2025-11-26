@@ -210,8 +210,7 @@ function buildAnnotatedCsv() {
 
 function downloadCsv() {
   const csv = buildAnnotatedCsv();
-  // Prepend UTF-8 BOM to keep Umlaut characters like "natürlich" intact in Excel exports.
-  const blob = new Blob(['\uFEFF', csv], { type: 'text/csv;charset=utf-8;' });
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.href = url;
