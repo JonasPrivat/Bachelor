@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSV Query Labeler</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  </head>
+  <body>
+    <header>
+      <div class="header-title">
+        <h1>Query Labeler</h1>
+        <p>Schnelle Annotation von CSV-Suchanfragen</p>
+      </div>
+      <div class="actions">
+        <label class="file-input">
+          <input id="file-input" type="file" accept=".csv" />
+          <span>Datei laden</span>
+        </label>
+        <button id="export-btn" disabled>Annotierte CSV exportieren</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="card">
+        <div class="row">
+          <div class="field">
+            <label for="has-header">
+              <input type="checkbox" id="has-header" checked />
+              Erste Zeile ist Header
+            </label>
+          </div>
+          <div class="field">
+            <label for="column-select">Spalte mit Query</label>
+            <select id="column-select" disabled></select>
+          </div>
+          <div class="field">
+            <label for="custom-label">Eigene Notiz (optional)</label>
+            <input
+              id="custom-label"
+              type="text"
+              placeholder="z.B. Domain, Confidence, …"
+              autocomplete="off"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section class="card focus">
+        <div class="progress">
+          <div>
+            <span id="current-counter">0 / 0</span>
+            <small id="unlabeled-hint">Keine Datei geladen</small>
+          </div>
+          <div class="progress-bar" aria-hidden="true">
+            <div id="progress-fill"></div>
+          </div>
+        </div>
+
+        <div class="query-display">
+          <p class="query-label">Aktuelle Query</p>
+          <p id="current-query" class="query-text">Lade eine CSV, um zu starten.</p>
+        </div>
+
+        <div id="row-preview" class="row-preview"></div>
+
+        <div class="controls">
+          <div class="button-group">
+            <button id="label-natural" class="primary" disabled>
+              Natürlich-sprachlich (1)
+            </button>
+            <button id="label-conventional" class="primary" disabled>
+              Konventionell (2)
+            </button>
+            <button id="label-custom" disabled>Eigenes Label (3)</button>
+            <button id="clear-label" disabled>Entfernen (Backspace)</button>
+          </div>
+          <div class="button-group secondary">
+            <button id="prev-btn" disabled>⟵ Zurück</button>
+            <button id="next-btn" disabled>Weiter ⟶</button>
+            <button id="next-unlabeled" disabled>Nächste ohne Label</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Tipps für Geschwindigkeit</h2>
+        <ul class="tips">
+          <li>1 = Natürlich-sprachlich, 2 = Konventionell, 3 = Eigenes Label</li>
+          <li>Pfeil rechts / Enter = Weiter, Pfeil links = Zurück</li>
+          <li>Backspace entfernt das Label der aktuellen Zeile</li>
+        </ul>
+      </section>
+    </main>
+
+    <script src="main.js"></script>
+  </body>
+</html>
