@@ -1,0 +1,234 @@
+:root {
+  --bg: #0f172a;
+  --card: #111827;
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+  --accent: #22c55e;
+  --accent-strong: #16a34a;
+  --border: #1f2937;
+  --shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+  --danger: #f97316;
+  --radius: 14px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 32px;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: radial-gradient(circle at 20% 20%, rgba(34, 197, 94, 0.1), transparent 25%),
+    radial-gradient(circle at 80% 0%, rgba(249, 115, 22, 0.1), transparent 20%),
+    var(--bg);
+  color: var(--text);
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  gap: 16px;
+}
+
+.header-title h1 {
+  margin: 0;
+  font-size: 28px;
+  letter-spacing: 0.2px;
+}
+
+.header-title p {
+  margin: 4px 0 0;
+  color: var(--muted);
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+button,
+.file-input span {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: linear-gradient(135deg, #1f2937, #111827);
+  color: var(--text);
+  padding: 12px 18px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease;
+  box-shadow: var(--shadow);
+  letter-spacing: 0.2px;
+}
+
+button:disabled,
+.file-input input:disabled + span {
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+button:hover:not(:disabled),
+.file-input:hover span {
+  transform: translateY(-2px);
+  border-color: #2dd4bf;
+}
+
+button.active {
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.35), var(--shadow);
+}
+
+button.primary {
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  border: none;
+  color: #0b1f0f;
+}
+
+button.secondary {
+  background: #1f2937;
+}
+
+.file-input {
+  position: relative;
+  overflow: hidden;
+}
+
+.file-input input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow);
+  margin-bottom: 16px;
+}
+
+.card.focus {
+  border-color: #2dd4bf;
+  box-shadow: 0 20px 80px rgba(34, 197, 94, 0.15);
+}
+
+.row {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  align-items: flex-end;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--muted);
+}
+
+.field input,
+.field select {
+  width: 100%;
+  background: #0b1221;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  color: var(--text);
+}
+
+.query-display {
+  margin: 12px 0 16px;
+}
+
+.query-label {
+  margin: 0;
+  color: var(--muted);
+}
+
+.query-text {
+  font-size: 20px;
+  margin: 8px 0 0;
+  line-height: 1.5;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.button-group {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.progress {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.progress-bar {
+  flex: 1;
+  height: 10px;
+  background: #0b1221;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+#progress-fill {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--accent), #a3e635);
+  transition: width 120ms ease;
+}
+
+.row-preview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.preview-item {
+  background: #0b1221;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.preview-item strong {
+  display: block;
+  color: var(--muted);
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.preview-item.highlight {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.35);
+}
+
+.tips {
+  margin: 0;
+  padding-left: 16px;
+  color: var(--muted);
+}
+
+@media (max-width: 700px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  body {
+    padding: 18px;
+  }
+}
