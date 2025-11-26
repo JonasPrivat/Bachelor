@@ -58,38 +58,26 @@ function toggleControls(enabled) {
 
 function parseFile(file) {
   resetState();
-
-  const reader = new FileReader();
-  reader.onload = () => {
-    const text = reader.result;
-    Papa.parse(text, {
-      skipEmptyLines: 'greedy',
-      encoding: 'UTF-8',
-      complete: (results) => {
-        const rows = results.data;
-        if (!rows.length) {
-          currentQuery.textContent = 'Die Datei enthält keine Zeilen.';
-          return;
-        }
-        STATE.rawRows = rows.map((row) => (Array.isArray(row) ? row : Object.values(row)));
-        STATE.hasHeader = hasHeaderCheckbox.checked;
-        STATE.annotations = new Array(STATE.rawRows.length - (STATE.hasHeader ? 1 : 0)).fill('');
-        buildColumnSelect();
-        updateUI();
-        toggleControls(true);
-        unlabeledHint.textContent = 'Nutze 1 / 2 / 3 für Labels, Enter für weiter.';
-      },
-      error: () => {
-        currentQuery.textContent = 'Fehler beim Lesen der Datei.';
-      },
-    });
-  };
-
-  reader.onerror = () => {
-    currentQuery.textContent = 'Fehler beim Lesen der Datei.';
-  };
-
-  reader.readAsText(file, 'utf-8');
+  Papa.parse(file, {
+    skipEmptyLines: 'greedy',
+    complete: (results) => {
+      const rows = results.data;
+      if (!rows.length) {
+        currentQuery.textContent = 'Die Datei enthält keine Zeilen.';
+        return;
+      }
+      STATE.rawRows = rows.map((row) => (Array.isArray(row) ? row : Object.values(row)));
+      STATE.hasHeader = hasHeaderCheckbox.checked;
+      STATE.annotations = new Array(STATE.rawRows.length - (STATE.hasHeader ? 1 : 0)).fill('');
+      buildColumnSelect();
+      updateUI();
+      toggleControls(true);
+      unlabeledHint.textContent = 'Nutze 1 / 2 / 3 für Labels, Enter für weiter.';
+    },
+    error: () => {
+      currentQuery.textContent = 'Fehler beim Lesen der Datei.';
+    },
+  });
 }
 
 function buildColumnSelect() {
@@ -222,14 +210,7 @@ function buildAnnotatedCsv() {
 
 function downloadCsv() {
   const csv = buildAnnotatedCsv();
-  // Prepend UTF-8 BOM bytes explicitly so Excel interprets Umlaut characters correctly.
-  const bom = new Uint8Array([0xef, 0xbb, 0xbf]);
-  const csvBytes = new TextEncoder().encode(csv);
-  const payload = new Uint8Array(bom.length + csvBytes.length);
-  payload.set(bom, 0);
-  payload.set(csvBytes, bom.length);
-
-  const blob = new Blob([payload], { type: 'text/csv;charset=utf-8;' });
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.href = url;
